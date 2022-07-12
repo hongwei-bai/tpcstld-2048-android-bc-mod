@@ -1,11 +1,15 @@
 package com.tpcstld.twozerogame;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.google.android.gms.auth.api.Auth;
@@ -19,6 +23,7 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.games.GamesClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.tpcstld.twozerogame.demo.ResultActivity;
 import com.tpcstld.twozerogame.snapshot.SnapshotData;
 import com.tpcstld.twozerogame.snapshot.SnapshotManager;
 
@@ -42,10 +47,38 @@ public class MainActivity extends AppCompatActivity {
 
     private MainView view;
 
+    private Context context = null;
+
+    private WinListener resultListener = new WinListener() {
+
+        @Override
+        public void onWin() {
+            Intent intent = new Intent(context, ResultActivity.class);
+            Log.d("bbbb", "onWin");
+            startActivity(intent);
+        }
+
+        @Override
+        public void onLose() {
+            Log.d("bbbb", "onLose");
+            Intent intent = new Intent(context, ResultActivity.class);
+            startActivity(intent);
+        }
+
+        @Override
+        public void onDraw() {
+            Intent intent = new Intent(context, ResultActivity.class);
+            Log.d("bbbb", "onDraw");
+            startActivity(intent);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view = new MainView(this);
+        view = new MainView(this, resultListener);
+
+        context = this;
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         view.hasSaveState = settings.getBoolean("save_state", false);
@@ -56,6 +89,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         setContentView(view);
+    }
+
+    interface WinListener {
+        void onWin();
+
+        void onLose();
+
+        void onDraw();
     }
 
     @Override

@@ -8,14 +8,37 @@
         android:icon="@drawable/logo_2048"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name="com.tpcstld.twozerogame.MainActivity"
+            android:name="com.tpcstld.twozerogame.demo.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.tpcstld.twozerogame.demo.ResultActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.tpcstld.twozerogame.demo.ProfileActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.tpcstld.twozerogame.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -23,20 +46,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="http"
                     android:host="tpcstld.me"
-                    android:path="/2048" />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:scheme="https"
-                    android:host="tpcstld.me"
-                    android:path="/2048" />
+                    android:path="/2048"
+                    android:scheme="http" />
             </intent-filter>
 
             <meta-data
@@ -44,8 +56,9 @@
                 android:value="http://tpcstld.me/2048" />
         </activity>
 
-        <meta-data android:name="com.google.android.gms.games.APP_ID"
-            android:value="@string/app_id"/>
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/app_id" />
     </application>
 
 </manifest>

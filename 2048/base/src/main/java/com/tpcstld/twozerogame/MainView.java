@@ -73,9 +73,14 @@ public class MainView extends View {
     private int eYAll;
     private int titleWidthHighScore;
     private int titleWidthScore;
+    private MainActivity.WinListener listener;
+    private Context context;
 
-    public MainView(Context context) {
+    public MainView(Context context, MainActivity.WinListener listener) {
         super(context);
+
+        this.listener = listener;
+        this.context = context;
 
         Resources resources = context.getResources();
         //Loading resources
@@ -105,6 +110,10 @@ public class MainView extends View {
     public void onDraw(Canvas canvas) {
         //Reset the transparency of the screen
 
+        if (game.steps >= 2) {
+            listener.onWin();
+        }
+
         canvas.drawBitmap(background, 0, 0, paint);
 
         drawScoreText(canvas);
@@ -121,6 +130,7 @@ public class MainView extends View {
 
         if (!game.canContinue()) {
             drawEndlessText(canvas);
+            listener.onDraw();
         }
 
         //Refresh the screen if there is still an animation running
@@ -374,9 +384,11 @@ public class MainView extends View {
                 displayOverlay = winGameContinueOverlay;
             } else {
                 displayOverlay = winGameFinalOverlay;
+                listener.onWin();
             }
         } else if (game.gameLost()) {
             displayOverlay = loseGameOverlay;
+            listener.onLose();
         }
 
         if (displayOverlay != null) {
@@ -525,15 +537,15 @@ public class MainView extends View {
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(1000);
         instructionsTextSize = Math.min(
-            1000f * (widthWithPadding / (paint.measureText(getResources().getString(R.string.instructions)))),
-            textSize / 1.5f
+                1000f * (widthWithPadding / (paint.measureText(getResources().getString(R.string.instructions)))),
+                textSize / 1.5f
         );
         gameOverTextSize = Math.min(
-            Math.min(
-                1000f * ((widthWithPadding - gridWidth * 2) / (paint.measureText(getResources().getString(R.string.game_over)))),
-                textSize * 2
-            ),
-            1000f * ((widthWithPadding - gridWidth * 2) / (paint.measureText(getResources().getString(R.string.you_win))))
+                Math.min(
+                        1000f * ((widthWithPadding - gridWidth * 2) / (paint.measureText(getResources().getString(R.string.game_over)))),
+                        textSize * 2
+                ),
+                1000f * ((widthWithPadding - gridWidth * 2) / (paint.measureText(getResources().getString(R.string.you_win))))
         );
 
         paint.setTextSize(cellSize);

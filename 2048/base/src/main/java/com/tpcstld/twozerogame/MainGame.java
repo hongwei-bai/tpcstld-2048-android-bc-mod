@@ -3,6 +3,8 @@ package com.tpcstld.twozerogame;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.tpcstld.twozerogame.snapshot.SnapshotData;
@@ -199,7 +201,11 @@ public class MainGame {
         return !(gameWon() || gameLost());
     }
 
+    int steps = 0;
+
     void move(int direction) {
+        steps++;
+        Log.d("bbbb", "steps: " + steps);
         aGrid.cancelAnimations();
         // 0: up, 1: right, 2: down, 3: left
         if (!isActive()) {
